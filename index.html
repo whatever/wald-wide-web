@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>i wanna be your joey ramone</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/pool-water.bundled.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #look-cool {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    </style>
+  </head>
+  <body>
+    <div style="overflow: hidden; position: relative; padding: 0; margin: 0; height: 100%; width: 100%;">
+      <canvas id="looks-cool"></canvas>
+    </div>
+    <script>
+
+      var params = {
+        "x": 0.0,
+        "y": 0.0,
+      };
+
+
+
+      let str = "smalldos/The Waldo Template-XXX.png";
+
+      var urls = [];
+
+      for (let i=1; i <= 48; i++) {
+        let dig = (i < 10 ? "0" : "") + i;
+        let url = str.replace("XXX", dig);
+        urls.push(url);
+      }
+
+      var el = document.getElementById("looks-cool");
+      var app = new svv.WaldApp({
+        el: el,
+        urls: urls,
+      });
+
+      (function loop() {
+        requestAnimationFrame(loop);
+        app.update(+new Date());
+        app.draw();
+      }());
+
+      function fill() {
+        let w = window.innerWidth || document.documentElement.clientWidth;
+        let h = window.innerHeight || document.documentElement.clientHeight;
+        app.setSize(w, h);
+      }
+
+      window.addEventListener("resize", fill);
+
+      fill();
+
+      window.addEventListener("load", function () {
+        fill();
+
+        document.getElementById("looks-cool").addEventListener("dblclick", function () {
+          app.save();
+        });
+
+        let el = document.getElementById("looks-cool");
+
+        el.style.cursor = "grab";
+
+        let start = {x: 0, y: 0};
+        let moving = false;
+        let drag = {x: 0, y: 0};
+
+        window.addEventListener("pointerdown", function (ev) {
+          moving = true;
+          el.style.cursor = "grabbing";
+          start.x = ev.clientX;
+          start.y = ev.clientY;
+        });
+
+        window.addEventListener("pointermove", function(ev) {
+          if (!moving) {
+            return;
+          }
+          let x = params.x;
+          let y = params.y;
+          let dx = (ev.clientX - start.x);
+          let dy = (ev.clientY - start.y);
+
+          requestAnimationFrame(function () {
+            app.offset(x-dx, y-dy);
+          });
+        });
+
+        window.addEventListener("pointerup", function (ev) {
+          moving = false;
+          el.style.cursor = "grab";
+          params.x -= (ev.clientX - start.x);
+          params.y -= (ev.clientY - start.y);
+        });
+      });
+
+    </script>
+  </body>
+</html>
