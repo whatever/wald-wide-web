@@ -38,7 +38,16 @@
         "y": 0.0,
       };
 
+      function setdo(x, y) {
+        localStorage.setItem("params", JSON.stringify(params));
+      }
 
+      function getdo() {
+        if (localStorage.getItem("params") === undefined) {
+          setdo();
+        }
+        return JSON.parse(localStorage.getItem("params"));
+      }
 
       let str = "./smalldos/The Waldo Template-XXX.png";
 
@@ -70,9 +79,13 @@
 
       window.addEventListener("resize", fill);
 
-      fill();
-
       window.addEventListener("load", function () {
+
+        params = getdo();
+        app.offset(params.x, params.y);
+
+        console.log(params);
+
         fill();
 
         document.getElementById("looks-cool").addEventListener("dblclick", function () {
@@ -113,6 +126,7 @@
           el.style.cursor = "grab";
           params.x -= (ev.clientX - start.x);
           params.y -= (ev.clientY - start.y);
+          setdo();
         });
       });
 
