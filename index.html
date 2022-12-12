@@ -3,7 +3,8 @@
   <head>
     <title>wald wide webdo</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" type="image/jpg" href="/wald-wide-web/favicon.ico"/>
+    <link rel="icon" type="image/png" href="./favicon.ico" sizes="16x16">
+    <link rel="shortcut icon" type="image/jpg" href="./favicon.ico"/>
     <script src="./pool-water.bundled.js"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
     <style>
@@ -43,7 +44,7 @@
       }
 
       function getdo() {
-        if (localStorage.getItem("params") === undefined) {
+        if (!localStorage.getItem("params")) {
           setdo();
         }
         return JSON.parse(localStorage.getItem("params"));
