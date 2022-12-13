@@ -25,6 +25,7 @@
       position: fixed;
       top: 0;
       left: 0;
+      touch-action: none;
     }
     </style>
   </head>
@@ -100,13 +101,15 @@
         let drag = {x: 0, y: 0};
 
         window.addEventListener("pointerdown", function (ev) {
+          ev.preventDefault();
           moving = true;
           el.style.cursor = "grabbing";
           start.x = ev.clientX;
           start.y = ev.clientY;
-        });
+        }, false);
 
         window.addEventListener("pointermove", function(ev) {
+          ev.preventDefault();
           if (!moving) {
             return;
           }
@@ -118,15 +121,16 @@
           requestAnimationFrame(function () {
             app.offset(x-dx, y-dy);
           });
-        });
+        }, false);
 
         window.addEventListener("pointerup", function (ev) {
+          ev.preventDefault();
           moving = false;
           el.style.cursor = "grab";
           params.x -= (ev.clientX - start.x);
           params.y -= (ev.clientY - start.y);
           setdo();
-        });
+        }, false);
       });
 
     </script>
